@@ -70,7 +70,10 @@ export async function submitIntroRequest(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          from: "Ruby Setu <intros@rubysetu.org>",
+          // Resend rejects a From address on an unverified domain. Until a
+          // domain is verified, its shared sender works and delivers to your
+          // own inbox. Set INTRO_FROM_EMAIL once rubysetu.org is verified.
+          from: process.env.INTRO_FROM_EMAIL ?? "Ruby Setu <onboarding@resend.dev>",
           to: [to],
           reply_to: data.email,
           subject: `Introduction request — ${data.organisation}`,
@@ -87,8 +90,13 @@ export async function submitIntroRequest(
       };
     }
   } else {
-    // No mail configured yet - do not lose the request silently.
-    console.info("[intro] new introduction request\n" + body);
+    // No mail configured. Warn loudly rather than info: on a hosted platform
+    // this line is the ONLY record of a request that a real person just sent,
+    // and it expires with the log retention window.
+    console.warn(
+      "[intro] MAIL NOT CONFIGURED - request received but not delivered:\n" +
+        body,
+    );
   }
 
   return {
