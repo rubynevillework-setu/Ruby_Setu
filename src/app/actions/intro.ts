@@ -49,8 +49,9 @@ export async function submitIntroRequest(
   }
 
   const data = parsed.data;
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.INTRO_NOTIFY_EMAIL;
+  // Trim: an env var set to an empty value must count as "not configured".
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+  const to = process.env.INTRO_NOTIFY_EMAIL?.trim();
 
   const body = [
     `From: ${data.name} <${data.email}>`,
@@ -73,7 +74,9 @@ export async function submitIntroRequest(
           // Resend rejects a From address on an unverified domain. Until a
           // domain is verified, its shared sender works and delivers to your
           // own inbox. Set INTRO_FROM_EMAIL once rubysetu.org is verified.
-          from: process.env.INTRO_FROM_EMAIL ?? "Ruby Setu <onboarding@resend.dev>",
+          from:
+            process.env.INTRO_FROM_EMAIL?.trim() ||
+            "Ruby Setu <onboarding@resend.dev>",
           to: [to],
           reply_to: data.email,
           subject: `Introduction request — ${data.organisation}`,

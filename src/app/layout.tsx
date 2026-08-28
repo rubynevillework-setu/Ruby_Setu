@@ -14,7 +14,29 @@ import { SiteFooter } from "@/components/site-footer";
 import { SampleDataBanner } from "@/components/sample-data-banner";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+/**
+ * Resolve the canonical site URL.
+ *
+ * Uses `||` and a trim, not `??`: an env var that exists but is EMPTY is the
+ * common case on a hosting platform (a variable added with no value yet), and
+ * `??` passes an empty string straight through to `new URL("")`, which throws
+ * ERR_INVALID_URL and fails the production build.
+ *
+ * Falls back to the host's own URL so metadata is correct with zero config.
+ */
+function resolveSiteUrl(): string {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (explicit) return explicit;
+
+  const vercelHost =
+    process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim() ||
+    process.env.VERCEL_URL?.trim();
+  if (vercelHost) return `https://${vercelHost}`;
+
+  return "http://localhost:3000";
+}
+
+const siteUrl = resolveSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
