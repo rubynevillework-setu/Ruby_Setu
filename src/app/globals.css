@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Ruby Setu design tokens.
+   Two shores: ruby (Nepal) and indigo (Europe), meeting on a cool
+   paper ground. Brass marks verified/trust signals only.
+   Deliberately NOT the cream + terracotta palette every ethical
+   sourcing site uses - a restrained, near-institutional surface
+   reads as more credible to a European buyer than warmth does.
+   ------------------------------------------------------------------ */
+
+@theme {
+  --color-paper: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-surface-2: #eff1f5;
+  --color-ink: #16181d;
+  --color-mute: #5c6470;
+  --color-line: #e1e5eb;
+  --color-line-soft: #eaedf2;
+  --color-ruby: #a31b36;
+  --color-ruby-soft: #f6e5e9;
+  /* Text placed on a solid ruby fill. Flips in dark, where ruby lightens. */
+  --color-on-ruby: #ffffff;
+  --color-indigo: #2c3e63;
+  --color-indigo-soft: #e6eaf3;
+  --color-brass: #8a6520;
+  --color-brass-soft: #f4ebda;
+
+  --font-display: "Newsreader Variable", ui-serif, Georgia, "Times New Roman", serif;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-paper: #101318;
+    --color-surface: #171b22;
+    --color-surface-2: #1d222b;
+    --color-ink: #e6e9ef;
+    --color-mute: #98a1b0;
+    --color-line: #272d38;
+    --color-line-soft: #212734;
+    --color-ruby: #e86b82;
+    --color-ruby-soft: #2a171d;
+    --color-on-ruby: #101318;
+    --color-indigo: #93a9d6;
+    --color-indigo-soft: #1a2030;
+    --color-brass: #d6ab6a;
+    --color-brass-soft: #26200f;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-ruby-soft);
+  color: var(--color-ruby);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ruby);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Long-form editorial body copy: profiles and stories. */
+.prose-setu {
+  max-width: 68ch;
+}
+.prose-setu p {
+  margin-bottom: 1.15rem;
+  line-height: 1.72;
+}
+.prose-setu h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  margin: 2.4rem 0 0.7rem;
+  text-wrap: balance;
+}
+.prose-setu h3 {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 2rem 0 0.6rem;
+}
+.prose-setu ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 1.15rem;
+}
+.prose-setu li {
+  margin-bottom: 0.4rem;
+  line-height: 1.65;
+}
+.prose-setu a {
+  color: var(--color-ruby);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose-setu blockquote {
+  border-left: 2px solid var(--color-ruby);
+  padding-left: 1.1rem;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-style: italic;
+  line-height: 1.5;
+  margin: 1.8rem 0;
+  color: var(--color-ink);
+}
